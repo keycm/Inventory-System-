@@ -20,6 +20,28 @@ $dailyTotal = 0;
 foreach ($sales as $sale) {
     $dailyTotal += $sale['total_amount'];
 }
+
+// Graph Data: Hourly sales for the selected date
+$sql = "SELECT HOUR(created_at) as sale_hour, SUM(total_amount) as total
+        FROM sales
+        WHERE DATE(created_at) = ?
+        GROUP BY HOUR(created_at)
+        ORDER BY sale_hour ASC";
+$stmt = $pdo->prepare($sql);
+$stmt->execute([$dateFilter]);
+$hourlyData = $stmt->fetchAll();
+
+$hours = [];
+$hourlyTotals = [];
+// Initialize all hours to 0
+for ($i = 0; $i < 24; $i++) {
+    $hours[] = sprintf("%02d:00", $i);
+    $hourlyTotals[] = 0;
+}
+
+foreach ($hourlyData as $data) {
+    $hourlyTotals[$data['sale_hour']] = $data['total'];
+}
 ?>
 
 <div class="top-bar">
@@ -41,6 +63,39 @@ foreach ($sales as $sale) {
         <p><?php echo count($sales); ?></p>
     </div>
 </div>
+
+<div class="card-container" style="margin-top: 20px;">
+    <div class="card" style="width: 100%;">
+        <h3>Hourly Sales Trend (<?php echo htmlspecialchars($dateFilter); ?>)</h3>
+        <canvas id="hourlySalesChart"></canvas>
+    </div>
+</div>
+
+<script>
+    const ctx = document.getElementById('hourlySalesChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: <?php echo json_encode($hours); ?>,
+            datasets: [{
+                label: 'Hourly Sales (₱)',
+                data: <?php echo json_encode($hourlyTotals); ?>,
+                borderColor: 'rgba(46, 204, 113, 1)',
+                backgroundColor: 'rgba(46, 204, 113, 0.2)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
 
 <div class="table-container">
     <table>

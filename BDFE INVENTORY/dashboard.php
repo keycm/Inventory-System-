@@ -32,6 +32,23 @@ $stmt = $pdo->query("
     LIMIT 5
 ");
 $recentSales = $stmt->fetchAll();
+
+// Get Sales Last 7 Days for Graph
+$stmt = $pdo->query("
+    SELECT DATE(created_at) as sale_date, SUM(total_amount) as total
+    FROM sales
+    WHERE created_at >= DATE(NOW()) - INTERVAL 7 DAY
+    GROUP BY DATE(created_at)
+    ORDER BY sale_date ASC
+");
+$salesData = $stmt->fetchAll();
+
+$dates = [];
+$totals = [];
+foreach ($salesData as $data) {
+    $dates[] = date('M j', strtotime($data['sale_date']));
+    $totals[] = $data['total'];
+}
 ?>
 
 <div class="card-container">
@@ -48,6 +65,37 @@ $recentSales = $stmt->fetchAll();
         <p><?php echo count($lowStockItems); ?></p>
     </div>
 </div>
+
+<div class="card-container" style="margin-top: 20px;">
+    <div class="card" style="flex: 2;">
+        <h3>Sales Overview (Last 7 Days)</h3>
+        <canvas id="salesChart"></canvas>
+    </div>
+</div>
+
+<script>
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    const salesChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: <?php echo json_encode($dates); ?>,
+            datasets: [{
+                label: 'Daily Sales (₱)',
+                data: <?php echo json_encode($totals); ?>,
+                backgroundColor: 'rgba(52, 152, 219, 0.6)',
+                borderColor: 'rgba(52, 152, 219, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
 
 <div class="table-container">
     <h3>Recent Sales</h3>
