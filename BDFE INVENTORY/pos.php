@@ -43,6 +43,17 @@ require_once 'includes/header.php';
     let cart = [];
 
     // Search Products
+    function escapeHtml(text) {
+        const map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
     document.getElementById('product-search').addEventListener('input', function(e) {
         const query = e.target.value;
         if (query.length > 2) {
@@ -60,7 +71,7 @@ require_once 'includes/header.php';
                         div.style.borderRadius = '4px';
                         div.style.textAlign = 'center';
                         div.innerHTML = `
-                            <h4>${product.name}</h4>
+                            <h4>${escapeHtml(product.name)}</h4>
                             <p>₱${product.price}</p>
                             <small>Stock: ${product.stock}</small>
                         `;
@@ -103,7 +114,7 @@ require_once 'includes/header.php';
             total += subtotal;
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>${item.name}</td>
+                <td>${escapeHtml(item.name)}</td>
                 <td><input type="number" min="1" max="${item.stock}" value="${item.quantity}" onchange="updateQty(${index}, this.value)" style="width: 50px;"></td>
                 <td>₱${item.price}</td>
                 <td>₱${subtotal.toFixed(2)}</td>

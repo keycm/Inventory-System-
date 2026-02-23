@@ -62,7 +62,7 @@ foreach ($sales as $sale) {
                 $items = $itemStmt->fetchAll();
                 $itemDetails = [];
                 foreach ($items as $item) {
-                    $itemDetails[] = $item['quantity'] . 'x ' . $item['name'];
+                    $itemDetails[] = $item['quantity'] . 'x ' . htmlspecialchars($item['name']);
                 }
             ?>
             <tr>

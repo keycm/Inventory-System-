@@ -14,10 +14,10 @@ $totalStock = $stmt->fetchColumn() ?: 0;
 
 // Get Low Stock Alerts (products with total stock < 10)
 $stmt = $pdo->query("
-    SELECT p.name, SUM(ib.remaining_quantity) as stock
+    SELECT p.id, p.name, SUM(ib.remaining_quantity) as stock
     FROM products p
     LEFT JOIN inventory_batches ib ON p.id = ib.product_id
-    GROUP BY p.id
+    GROUP BY p.id, p.name
     HAVING stock < 10 OR stock IS NULL
     LIMIT 5
 ");
@@ -89,7 +89,7 @@ $recentSales = $stmt->fetchAll();
             <tr>
                 <td><?php echo htmlspecialchars($item['name']); ?></td>
                 <td style="color: red; font-weight: bold;"><?php echo (int)$item['stock']; ?></td>
-                <td><a href="add_stock.php?product=<?php echo urlencode($item['name']); ?>" class="btn btn-primary">Restock</a></td>
+                <td><a href="receive_stock.php?id=<?php echo $item['id']; ?>" class="btn btn-primary">Restock</a></td>
             </tr>
             <?php endforeach; ?>
         </tbody>
