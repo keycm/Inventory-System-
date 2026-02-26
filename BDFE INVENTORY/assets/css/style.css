@@ -3,7 +3,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #e9efe5; /* Light greenish grey background */
+    background-color: #E9EFE5; /* Light greenish grey background matching image */
     margin: 0;
     display: flex;
     color: #333;
@@ -12,75 +12,102 @@ body {
 /* Sidebar */
 .sidebar {
     width: 250px;
-    background-color: #e9efe5; /* Matches body background */
+    background-color: #E9EFE5; /* Matches body background */
     color: #333;
     height: 100vh;
     position: fixed;
-    padding: 20px;
+    padding: 20px 15px; /* Less horizontal padding */
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    border-right: 1px solid #ddd; /* Subtle border */
+    /* No border-right to make it seamless as per image */
 }
 
 .sidebar-header {
     display: flex;
     align-items: center;
     margin-bottom: 30px;
+    padding-left: 10px;
 }
 
 .sidebar-header img {
-    width: 40px;
+    width: 35px;
     margin-right: 10px;
 }
 
 .sidebar-header h2 {
-    font-size: 1rem;
+    font-size: 0.85rem;
     font-weight: 700;
     margin: 0;
     line-height: 1.2;
     color: #333;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .sidebar-menu-label {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #666;
     margin-bottom: 10px;
+    padding-left: 15px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    font-weight: 500;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Spacing between items */
 }
 
 .sidebar a {
     display: flex;
     align-items: center;
-    padding: 12px 20px;
-    color: #333;
+    padding: 10px 20px;
+    color: #444;
     text-decoration: none;
-    transition: 0.3s;
+    transition: 0.2s;
     border-radius: 30px; /* Pill shape */
-    margin-bottom: 5px;
     font-weight: 500;
+    font-size: 0.95rem;
 }
 
 .sidebar a i {
     width: 25px;
     margin-right: 10px;
     font-size: 1.1rem;
+    color: #444; /* Icon color matches text */
 }
 
 .sidebar a:hover {
-    background-color: #dcedc8;
+    background-color: rgba(104, 159, 56, 0.1); /* Light green hover */
+    color: #2e7d32;
+}
+
+.sidebar a:hover i {
+    color: #2e7d32;
 }
 
 .sidebar a.active {
     background-color: #689f38; /* Green active state */
     color: white;
-    box-shadow: 0 4px 6px rgba(104, 159, 56, 0.3);
+    box-shadow: 0 4px 8px rgba(104, 159, 56, 0.25);
 }
 
-.pos-btn-container {
-    margin-top: auto; /* Push to bottom */
-    margin-bottom: 20px;
+.sidebar a.active i {
+    color: white;
+}
+
+.sidebar-separator {
+    height: 1px;
+    background-color: #cbd5c0; /* Subtle separator line */
+    margin: 15px 15px;
+}
+
+.pos-section {
+    margin-top: 20px;
+    padding: 0 10px;
 }
 
 .btn-pos-sidebar {
@@ -92,15 +119,18 @@ body {
     background-color: white;
     color: #689f38;
     font-weight: 700;
-    border-radius: 8px;
+    border-radius: 8px; /* Slightly rounded */
     text-decoration: none;
     font-size: 1.2rem;
     transition: 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    text-transform: uppercase;
 }
 
 .btn-pos-sidebar:hover {
     background-color: #689f38;
     color: white;
+    box-shadow: 0 4px 8px rgba(104, 159, 56, 0.3);
 }
 
 /* Main Content */
@@ -109,6 +139,7 @@ body {
     padding: 30px;
     width: calc(100% - 250px);
     box-sizing: border-box;
+    background-color: #E9EFE5; /* Seamless background */
 }
 
 /* Top Bar */
@@ -122,13 +153,12 @@ body {
 }
 
 .search-bar {
-    margin-right: auto; /* Push search to left, others to right if needed, but image shows icons on right */
-    display: none; /* Hidden for now based on image layout preference, or maybe left aligned? Image shows icons on right */
+    margin-right: auto; /* Push search to left */
 }
 
 .top-icons {
     display: flex;
-    gap: 15px;
+    gap: 20px;
     font-size: 1.2rem;
     color: #333;
     cursor: pointer;
@@ -138,18 +168,27 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
+    cursor: pointer;
 }
 
 .user-avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #8bc34a; /* Placeholder avatar color */
+    /* Placeholder avatar color/image */
+    background-color: #8bc34a;
     display: flex;
     justify-content: center;
     align-items: center;
     color: white;
     font-weight: bold;
+    overflow: hidden; /* For actual image */
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .user-info {
@@ -160,84 +199,101 @@ body {
     font-weight: 600;
     font-size: 0.9rem;
     display: block;
+    color: #333;
 }
 
 .user-role {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #666;
     display: block;
 }
 
-/* Cards (Widgets) */
-.widget-row {
+/* Dashboard Grid Layout matching Image */
+.dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
-    margin-bottom: 30px;
+    grid-template-columns: 1fr 1fr; /* 2 columns */
+    gap: 25px;
+    margin-bottom: 25px;
 }
 
-.widget-card {
+.dashboard-card {
     background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    padding: 30px;
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03); /* Very subtle shadow */
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 140px; /* Fixed height for consistency */
+    box-sizing: border-box;
 }
 
-.widget-icon {
-    font-size: 2.5rem;
-    color: #689f38;
+.card-icon {
+    font-size: 3rem;
+    color: #558b2f; /* Darker green for icons */
+    opacity: 0.9;
 }
 
-.widget-info {
+.card-content {
     text-align: right;
 }
 
-.widget-title {
-    font-size: 0.9rem;
-    color: #888;
+.card-label {
+    font-size: 1rem;
+    color: #888; /* Grey label */
     text-transform: uppercase;
-    letter-spacing: 0.5px;
     margin: 0;
+    font-weight: 500;
+    letter-spacing: 0.5px;
 }
 
-.widget-value {
-    font-size: 1.8rem;
+.card-value {
+    font-size: 1.8rem; /* Large value */
     font-weight: 700;
-    color: #333;
+    color: #222; /* Dark value */
     margin: 5px 0 0;
 }
 
 /* Charts Section */
-.charts-row {
+.charts-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 25px;
     margin-bottom: 30px;
 }
 
-.chart-card {
+.chart-container {
     background: white;
     padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    min-height: 350px;
 }
 
-.chart-card h3 {
-    margin-top: 0;
+.chart-header {
     margin-bottom: 20px;
+}
+
+.chart-header h3 {
+    margin: 0;
     font-size: 1.1rem;
     font-weight: 600;
+    color: #333;
+}
+
+.chart-legend {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 5px;
 }
 
 /* Stock Alert Table Section */
 .table-section {
     background: white;
     padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    margin-top: 30px;
 }
 
 .table-section h3 {
@@ -262,19 +318,24 @@ th {
     font-weight: 600;
     color: #666;
     background-color: transparent; /* Clean look */
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 td {
     color: #333;
+    font-size: 0.95rem;
 }
 
 .btn-restock {
-    padding: 6px 12px;
+    padding: 8px 15px;
     background-color: #689f38;
     color: white;
-    border-radius: 4px;
+    border-radius: 5px;
     text-decoration: none;
     font-size: 0.85rem;
+    font-weight: 500;
     transition: 0.3s;
 }
 
@@ -282,9 +343,18 @@ td {
     background-color: #558b2f;
 }
 
+.alert-danger {
+    color: #e74c3c;
+    background-color: rgba(231, 76, 60, 0.1);
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
-    .charts-row {
+    .dashboard-grid, .charts-grid {
         grid-template-columns: 1fr;
     }
 }
