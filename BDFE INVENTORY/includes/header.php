@@ -19,17 +19,61 @@ requireLogin();
 <body>
 
 <div class="sidebar">
-    <h2>Inventory</h2>
-    <a href="dashboard.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'dashboard.php' ? 'active' : ''; ?>"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-    <a href="inventory.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'inventory.php' ? 'active' : ''; ?>"><i class="fas fa-boxes"></i> Inventory</a>
-    <a href="pos.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'pos.php' ? 'active' : ''; ?>"><i class="fas fa-cash-register"></i> POS</a>
-    <a href="sales_report.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'sales_report.php' ? 'active' : ''; ?>"><i class="fas fa-chart-line"></i> Sales Report</a>
-    <a href="capital_recovery.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'capital_recovery.php' ? 'active' : ''; ?>"><i class="fas fa-money-bill-wave"></i> Capital Recovery</a>
-    <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    <div class="sidebar-header">
+        <i class="fas fa-leaf" style="font-size: 2rem; color: #689f38; margin-right: 10px;"></i>
+        <h2>BIODIVERSITY-FRIENDLY ENTERPRISE (BDFE)</h2>
+    </div>
+
+    <div class="sidebar-menu-label">MENU</div>
+
+    <a href="dashboard.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'dashboard.php' ? 'active' : ''; ?>">
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+    </a>
+    <a href="inventory.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'inventory.php' ? 'active' : ''; ?>">
+        <i class="fas fa-boxes"></i> Inventory
+    </a>
+    <a href="sales_report.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'sales_report.php' ? 'active' : ''; ?>">
+        <i class="fas fa-chart-line"></i> Sales
+    </a>
+    <a href="capital_recovery.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'capital_recovery.php' ? 'active' : ''; ?>">
+        <i class="fas fa-coins"></i> Finance
+    </a>
+    <a href="#" class="<?php echo basename($_SERVER['PHP_SELF']) == 'user_account.php' ? 'active' : ''; ?>">
+        <i class="fas fa-user"></i> User Account
+    </a>
+    <a href="sales_report.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'data_reports.php' ? 'active' : ''; ?>">
+        <i class="fas fa-file-alt"></i> Data Reports
+    </a>
+    <a href="#" class="<?php echo basename($_SERVER['PHP_SELF']) == 'settings.php' ? 'active' : ''; ?>">
+        <i class="fas fa-cog"></i> Settings
+    </a>
+
+    <div class="pos-btn-container">
+        <a href="pos.php" class="btn-pos-sidebar">POS</a>
+    </div>
 </div>
 
 <div class="main-content">
     <div class="top-bar">
-        <h3>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></h3>
-        <span><?php echo date('F j, Y'); ?></span>
+        <!-- Search Bar (Visual Only) -->
+        <div class="search-bar" style="display: flex; align-items: center; background: #fff; padding: 5px 15px; border-radius: 20px; border: 1px solid #ddd;">
+            <i class="fas fa-search" style="color: #999; margin-right: 10px;"></i>
+            <input type="text" placeholder="Search..." style="border: none; outline: none; font-size: 0.9rem; color: #666;">
+        </div>
+
+        <div class="top-icons">
+            <i class="fas fa-sun"></i>
+            <i class="fas fa-bell"></i>
+        </div>
+
+        <div class="user-profile">
+            <div class="user-info">
+                <span class="user-name"><?php echo htmlspecialchars($_SESSION['username'] ?? 'Vincent Paul Pena'); ?></span>
+                <span class="user-role">Store Owner</span>
+            </div>
+            <div class="user-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <a href="logout.php" style="color: #666; font-size: 1.2rem; margin-left: 10px;"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
     </div>
